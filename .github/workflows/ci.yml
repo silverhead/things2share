@@ -1,0 +1,51 @@
+name: Pipeline-CI
+
+on:
+  pull_request:
+    branches: [dev]
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    continue-on-error: false
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      # https://github.com/marketplace/actions/setup-php-action
+      - name: Setup PHP with extensions and composer
+        uses: shivammathur/setup-php@v2
+        with:
+          extensions: mbstring, xml, ctype, iconv, intl, pdo, pdo_mysql, dom, filter, gd, json, zip
+      - name: Cache vendor
+        uses: actions/cache@v2
+        with:
+          path: |
+            vendor
+          key: ${{ runner.os }}-${{ hashFiles('composer.lock') }}
+      - name: "Composer install"
+        run: composer install --no-interaction --no-progress
+      - name: Symfony CI
+        run: |
+          curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.deb.sh' | sudo -E bash
+          sudo apt install symfony-cli
+      - name: Symfony check vulnerabilities
+        run: symfony check:security
+      - name: PHP CS FIXER
+        run: |
+          mkdir --parents tools/php-cs-fixer
+          composer require --working-dir=tools/php-cs-fixer friendsofphp/php-cs-fixer
+          tools/php-cs-fixer/vendor/bin/php-cs-fixer fix --dry-run
+      - name: PHP Stan
+        run: |
+          ./vendor/bin/simple-phpunit  install
+          composer require phpstan/phpstan
+          composer require phpstan/extension-installer
+          composer require phpstan/phpstan-symfony
+          ./vendor/bin/phpstan analyse src --memory-limit 1G
+      - name: lint YAML files
+        run: ./bin/console lint:yaml config --parse-tags
+      - name: lint Twig templates
+        run: ./bin/console lint:twig templates --env=prod
+      - name: lint Doctrine entities
+        run: ./bin/console doctrine:schema:validate --skip-sync -vvv --no-interaction
+      - name: PHP Unit
+        run: ./bin/phpunit
