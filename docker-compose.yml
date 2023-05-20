@@ -1,0 +1,53 @@
+version: "3.8"
+services:
+  app:
+    container_name: things2share_app
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VARIANT: "8.2-bullseye"
+        NODE_VERSION: "lts/*"
+    volumes:
+      - .:/workspace:cached
+    ports:
+      - 9080:8000
+      - 8080:80
+      - 8443:443
+      # Overrides default command so things don't shut down after the process ends.
+    command: sleep infinity
+    links:
+    - db
+  db:
+    container_name: things2share_db
+    #Ici c'est mariadb mais c'est à paramétrer en fonction du besoin
+    image: mariadb:10.3
+    restart: unless-stopped
+    volumes:
+      - db-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: things2share
+      MYSQL_DATABASE: things2share
+      MYSQL_USER: things2share
+      MYSQL_PASSWORD: things2share
+    ports:
+      - 3306:3306
+  phpmyadmin:
+    container_name: things2share_pma
+    image: phpmyadmin/phpmyadmin
+    links:
+    - db
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+      UPLOAD_LIMIT: 300M
+      restart: 'no'
+    ports:
+      - 9081:80
+  mailer:
+    container_name: things2share_mailer
+    image: schickling/mailcatcher
+    ports: ["1025", "1080"]
+volumes:
+  db-data: null
