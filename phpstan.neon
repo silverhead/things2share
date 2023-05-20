@@ -1,0 +1,18 @@
+parameters:
+    level: 6
+    
+    symfony:
+        container_xml_path: var/cache/dev/App_KernelDevDebugContainer.xml
+    
+    checkGenericClassInNonGenericObjectType: false
+    checkMissingIterableValueType: false
+
+#    ignoreErrors:
+#        - '#no type specified#'
+#        - '#Component#'
+#        - '#expects int, string given#'
+#        - '#Call to an undefined method App\\Repository\\.+Repository::find.+\(\).#'
+
+    paths:
+        - src
+        - tests
