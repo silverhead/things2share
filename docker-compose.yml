@@ -18,7 +18,7 @@ services:
   db:
     container_name: things2share_db
     #Ici c'est mariadb mais c'est à paramétrer en fonction du besoin
-    image: mariadb:10.3
+    image: mariadb:10.11
     restart: unless-stopped
     volumes:
       - db-data:/var/lib/mysql
@@ -41,7 +41,7 @@ services:
       UPLOAD_LIMIT: 300M
       restart: 'no'
     ports:
-      - 9081:80
+      - 8081:80
   mailer:
     container_name: things2share_mailer
     image: schickling/mailcatcher
