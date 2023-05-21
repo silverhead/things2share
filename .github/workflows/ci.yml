@@ -36,7 +36,6 @@ jobs:
           tools/php-cs-fixer/vendor/bin/php-cs-fixer fix --dry-run
       - name: PHP Stan
         run: |
-          ./vendor/bin/simple-phpunit  install
           composer require phpstan/phpstan
           composer require phpstan/extension-installer
           composer require phpstan/phpstan-symfony
