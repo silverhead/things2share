@@ -5,14 +5,11 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      args:
-        VARIANT: "8.2-bullseye"
-        NODE_VERSION: "lts/*"
     volumes:
       - .:/workspace:cached
+      - "~/.gitconfig:/etc/gitconfig"
     ports:
-      - 9080:8000
-      - 8080:80
+      - 8080:8000
       - 8443:443
       # Overrides default command so things don't shut down after the process ends.
     command: sleep infinity
