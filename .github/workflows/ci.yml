@@ -42,9 +42,11 @@ jobs:
           ./vendor/bin/phpstan analyse src --memory-limit 1G
       - name: lint YAML files
         run: ./bin/console lint:yaml config --parse-tags
-      - name: lint Twig templates
-        run: ./bin/console lint:twig templates --env=prod
-      - name: lint Doctrine entities
-        run: ./bin/console doctrine:schema:validate --skip-sync -vvv --no-interaction
+      # - name: lint Twig templates
+      #   run: ./bin/console lint:twig templates --env=prod
+      #- name: lint Doctrine entities
+      #  run: ./bin/console doctrine:schema:validate --skip-sync -vvv --no-interaction
       - name: PHP Unit
-        run: ./bin/phpunit
+        run: |
+          composer require phpunit
+          ./vendor/bin/phpunit

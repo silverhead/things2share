@@ -1,26 +1,34 @@
 {
     "type": "project",
     "license": "proprietary",
-    "minimum-stability": "stable",
+    "minimum-stability": "beta",
     "prefer-stable": true,
     "require": {
-        "php": ">=8.0.2",
+        "php": "8.2.*",
         "ext-ctype": "*",
         "ext-iconv": "*",
-        "symfony/console": "6.0.*",
-        "symfony/dotenv": "6.0.*",
+        "symfony/console": "^6.0",
+        "symfony/dotenv": "^6.0",
         "symfony/flex": "^2",
-        "symfony/framework-bundle": "6.0.*",
-        "symfony/runtime": "6.0.*",
-        "symfony/yaml": "6.0.*"
+        "symfony/framework-bundle": "^6.0",
+        "symfony/framework-bundle": "^6.0",
+        "symfony/runtime": "^6.0",
+        "symfony/yaml": "^6.0"
     },
     "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.16",
+        "phpro/grumphp": "^1.16",
+        "phpstan/extension-installer": "^1.3",
+        "phpstan/phpstan": "^1.10",
+        "phpstan/phpstan-symfony": "^1.3"
     },
     "config": {
         "allow-plugins": {
             "composer/package-versions-deprecated": true,
             "symfony/flex": true,
-            "symfony/runtime": true
+            "symfony/runtime": true,
+            "phpstan/extension-installer": true,
+            "phpro/grumphp": true
         },
         "optimize-autoloader": true,
         "preferred-install": {
@@ -64,7 +72,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "6.0.*"
+            "require": "^6.0"
         }
     }
 }
