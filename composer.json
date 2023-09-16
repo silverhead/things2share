@@ -7,10 +7,11 @@
         "php": "8.2.*",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "doctrine/doctrine-bundle": "*",
+        "doctrine/orm": "^2.15",
         "symfony/console": "^6.0",
         "symfony/dotenv": "^6.0",
         "symfony/flex": "^2",
-        "symfony/framework-bundle": "^6.0",
         "symfony/framework-bundle": "^6.0",
         "symfony/runtime": "^6.0",
         "symfony/yaml": "^6.0"
